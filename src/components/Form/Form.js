@@ -1,7 +1,10 @@
-import React, { Component } from "react";
+import { Component } from "react";
+import { connect } from "react-redux";
+import actions from "../../redux/actions";
+
 import s from "./Form.module.css";
 
-export default class Form extends Component {
+class Form extends Component {
   state = {
     name: "",
     number: "",
@@ -15,10 +18,6 @@ export default class Form extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.onSubmit(this.state);
-    this.reset();
-  };
-
-  reset = () => {
     this.setState({
       name: "",
       number: "",
@@ -62,3 +61,9 @@ export default class Form extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit: (name, number) => dispatch(actions.addContact(name, number)),
+});
+
+export default connect(null, mapDispatchToProps)(Form);
